@@ -12,20 +12,20 @@ import           Data.Aeson
 import           Data.Text
 
 data Product = Product {
-              productName :: Text,
-              manufacturer :: Text,
-              model :: Text,
-              family :: Text,
-              announcedDate :: Text
+              productName :: !Text,
+              manufacturer :: Maybe Text,
+              model :: Maybe Text,
+              family :: Maybe Text,
+              announcedDate :: Maybe Text
              } deriving (Show)
 
 instance FromJSON Product where
-    parseJSON (Object v) =
-          Product <$> v .: "product_name"
-                  <*> v .: "manufacturer"
-                  <*> v .: "model"
-                  <*> v .: "family"
-                  <*> v .: "announced-data"
+    parseJSON (Object v) = Product <$>
+                  v .: "product_name" <*>
+                  v .:? "manufacturer" <*>
+                  v .:? "model" <*>
+                  v .:? "family" <*>
+                  v .:? "announced-data"
     parseJSON _ = Control.Applicative.empty
 
 instance ToJSON Product where
