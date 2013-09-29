@@ -25,7 +25,7 @@ instance FromJSON Product where
                   v .:? "manufacturer" <*>
                   v .:? "model" <*>
                   v .:? "family" <*>
-                  v .:? "announced-data"
+                  v .:? "announced-date"
     parseJSON _ = Control.Applicative.empty
 
 instance ToJSON Product where
